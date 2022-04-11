@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Date;
 
 @Entity
 @Table(name = "transactions")
@@ -22,7 +21,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private Date date;
+    private String date;
     private String category;
     private String tags;
     private TransactionType type;
