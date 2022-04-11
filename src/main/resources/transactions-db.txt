@@ -1,0 +1,8 @@
+transactions
+(
+id BIGINT NOT NULL,
+date DATE
+category VARCHAR
+tags VARCHAR
+amount NUMERIC
+)
