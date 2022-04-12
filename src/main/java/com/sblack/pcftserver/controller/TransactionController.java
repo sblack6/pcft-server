@@ -1,11 +1,14 @@
 package com.sblack.pcftserver.controller;
 
+import com.sblack.pcftserver.exception.PcftException;
 import com.sblack.pcftserver.model.Transaction;
 import com.sblack.pcftserver.repositories.TransactionRepository;
+import com.sblack.pcftserver.service.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -15,6 +18,9 @@ public class TransactionController {
 
     @Autowired
     private TransactionRepository transactionsRepo;
+
+    @Autowired
+    private FileUploadService fileUploadService;
 
     private static final String SUCCESS = "Success.";
 
@@ -47,5 +53,16 @@ public class TransactionController {
         return ResponseEntity.status(HttpStatus.OK).body(SUCCESS);
     }
 
-
+    @PostMapping("/upload-transactions")
+    public ResponseEntity uploadTransactions(@RequestParam String source,
+                                             @RequestBody MultipartFile file) {
+        List<Transaction> transactions;
+        try {
+            transactions = fileUploadService.readTransactions(file, source);
+            transactions = transactionsRepo.saveAll(transactions);
+        } catch (PcftException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(transactions);
+    }
 }
