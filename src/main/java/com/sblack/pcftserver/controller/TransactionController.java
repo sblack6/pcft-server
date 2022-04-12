@@ -5,6 +5,7 @@ import com.sblack.pcftserver.model.Transaction;
 import com.sblack.pcftserver.repositories.TransactionRepository;
 import com.sblack.pcftserver.service.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,6 +52,11 @@ public class TransactionController {
     public ResponseEntity delete(@PathVariable long id) {
         transactionsRepo.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).body(SUCCESS);
+    }
+
+    @GetMapping("/search")
+    public List<Transaction> search(@RequestBody Transaction example) {
+        return transactionsRepo.findAll(Example.of(example));
     }
 
     @PostMapping("/upload-transactions")
