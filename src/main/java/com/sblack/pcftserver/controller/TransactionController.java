@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @RestController
@@ -55,8 +57,14 @@ public class TransactionController {
     }
 
     @GetMapping("/search")
-    public List<Transaction> search(@RequestBody Transaction example) {
-        return transactionsRepo.findAll(Example.of(example));
+    public ResponseEntity search(@RequestParam String startDate, @RequestParam String endDate) {
+        try {
+            LocalDate start = LocalDate.parse(startDate);
+            LocalDate end = LocalDate.parse(endDate);
+            return ResponseEntity.status(HttpStatus.OK).body(transactionsRepo.findAllByDateBetween(start, end));
+        } catch (DateTimeParseException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unable to parse either startDate or endDate.  Dates must be in YYYY-MM-DD format.");
+        }
     }
 
     @PostMapping("/upload-transactions")

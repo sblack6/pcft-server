@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class PersonalCapitalCsvReader implements TransactionReader {
             List<Transaction> transactions = new LinkedList<>();
             for (CSVRecord record : records) {
                 Transaction transactionFromRecord = Transaction.builder()
-                        .date(record.get((HEADERS[0])))
+                        .date(LocalDate.parse(record.get((HEADERS[0]))))
                         .category(record.get(HEADERS[3]))
                         .tags(record.get(HEADERS[4]))
                         .amount(Float.parseFloat(record.get(HEADERS[5])))
