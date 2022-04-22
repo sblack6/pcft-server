@@ -29,7 +29,7 @@ public class TransactionController {
     @Autowired
     private FileUploadService fileUploadService;
 
-    private static final String SUCCESS = "Success.";
+    private static final String SUCCESS = "\"Success.\"";
 
     @GetMapping("/list")
     public List<Transaction> listAll() {
@@ -42,9 +42,9 @@ public class TransactionController {
     }
 
     @PostMapping
-    public Transaction create(@RequestBody Transaction transaction) {
-        Transaction createdTransaction = transactionsRepo.save(transaction);
-        return createdTransaction;
+    public List<Transaction> create(@RequestBody List<Transaction> transactions) {
+        List<Transaction> createdTransactions = transactionsRepo.saveAll(transactions);
+        return createdTransactions;
     }
 
     @PutMapping("/{id}")
