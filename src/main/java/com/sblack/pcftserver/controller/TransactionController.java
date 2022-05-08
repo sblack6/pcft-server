@@ -45,7 +45,10 @@ public class TransactionController {
 
     @PostMapping
     public List<Transaction> create(@RequestBody List<Transaction> transactions) {
-        List<Transaction> createdTransactions = transactionsRepo.saveAll(transactions);
+        List<Transaction> createdTransactions = new LinkedList<>();
+        transactions.forEach(transaction -> {
+            createdTransactions.add(transactionsRepo.save(transaction));
+        });
         return createdTransactions;
     }
 
