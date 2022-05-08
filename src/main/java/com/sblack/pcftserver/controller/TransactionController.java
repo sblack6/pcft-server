@@ -81,13 +81,13 @@ public class TransactionController {
         List<Transaction> exampleSearchResults = exampleSearch(type, category);
         log.info("Example search results: {}", exampleSearchResults);
 
-        List<Transaction> combinedResults;
+        List<Transaction> combinedResults = new LinkedList<>();
         if (!exampleSearchResults.isEmpty()) {
             if (!dateSearchResults.isEmpty()) {
                 exampleSearchResults.retainAll(dateSearchResults);
             }
             combinedResults = exampleSearchResults;
-        } else {
+        } else if (type == null && category == null) {
             combinedResults = dateSearchResults;
         }
         List<Transaction> finalResults = tagSearch(combinedResults, tag);
