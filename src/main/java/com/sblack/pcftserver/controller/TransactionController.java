@@ -133,10 +133,12 @@ public class TransactionController {
 
     @PostMapping("/upload-transactions")
     public ResponseEntity uploadTransactions(@RequestParam String source,
-                                             @RequestBody MultipartFile file) {
+                                             @RequestBody MultipartFile file, String type) {
         List<Transaction> transactions;
         try {
+            TransactionType transactionType = TransactionType.valueOf(type);
             transactions = fileUploadService.readTransactions(file, source);
+            transactions.forEach(transaction -> transaction.setType(transactionType));
             transactions = transactionsRepo.saveAll(transactions);
         } catch (PcftException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

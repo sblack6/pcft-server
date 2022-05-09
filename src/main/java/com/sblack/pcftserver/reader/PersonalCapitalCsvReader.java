@@ -32,7 +32,6 @@ public class PersonalCapitalCsvReader implements TransactionReader {
                         .category(record.get(HEADERS[3]))
                         .tags(record.get(HEADERS[4]))
                         .amount(Float.parseFloat(record.get(HEADERS[5])))
-                        .type(TransactionType.TRANSACTION)
                         .build();
                 transactions.add(transactionFromRecord);
             }
