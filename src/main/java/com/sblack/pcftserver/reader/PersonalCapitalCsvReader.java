@@ -2,7 +2,6 @@ package com.sblack.pcftserver.reader;
 
 import com.sblack.pcftserver.exception.PcftException;
 import com.sblack.pcftserver.model.Transaction;
-import com.sblack.pcftserver.model.TransactionType;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.stereotype.Component;
