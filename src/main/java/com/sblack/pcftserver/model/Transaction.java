@@ -23,6 +23,7 @@ public class Transaction {
     private Long id;
 
     private LocalDate date;
+    private String account;
     private String category;
     private String tags;
     private TransactionType type;
